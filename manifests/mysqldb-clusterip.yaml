@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysqldb-clusterip
+  namespace: final
+  labels:
+    appname: clo835-final
+    app_component: backend
+spec:
+  ports:
+  - port: 3306
+    targetPort: 3306
+  selector:
+    appname: clo835-final
+    app_component: backend

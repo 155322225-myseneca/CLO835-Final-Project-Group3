@@ -9,8 +9,6 @@ spec:
       appname: clo835-final
       app_component: backend
   replicas: 1
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
