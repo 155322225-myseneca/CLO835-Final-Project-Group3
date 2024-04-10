@@ -59,7 +59,8 @@ def download_image_from_s3(bucket_name, key, local_path):
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
-    return render_template('addemp.html', color=color_codes[COLOR])
+    download_image_from_s3(bucket_name, key, local_path)
+    return render_template('addemp.html', background_image=local_path)
 
 @app.route("/about", methods=['GET','POST'])
 def about():
