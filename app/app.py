@@ -3,6 +3,7 @@ from pymysql import connections
 import os
 import random
 import argparse
+import boto3
 
 
 app = Flask(__name__)
@@ -13,6 +14,13 @@ DBPWD = os.environ.get("DBPWD") or "passwors"
 DATABASE = os.environ.get("DATABASE") or "employees"
 COLOR_FROM_ENV = os.environ.get('APP_COLOR') or "lime"
 DBPORT = int(os.environ.get("DBPORT"))
+
+# Credentails from AWS
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+bucket_name = os.getenv('S3_BUCKET_NAME')
+key = os.getenv('IMAGE_KEY')
+local_path = '/home/ec2-user/environment/Project/app/ilovedogs.jpg'
 
 # Create a connection to the MySQL database
 db_conn = connections.Connection(
@@ -44,6 +52,10 @@ SUPPORTED_COLORS = ",".join(color_codes.keys())
 # Generate a random color
 COLOR = random.choice(["red", "green", "blue", "blue2", "darkblue", "pink", "lime"])
 
+# Download image from S3 bucket to local
+def download_image_from_s3(bucket_name, key, local_path):
+    s3 = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY_ID, aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
+    s3.download_file(bucket_name, key, local_path)
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
