@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysqldb
+spec:
+  selector:
+    matchLabels:
+      appname: clo835-final
+      app_component: backend
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        appname: clo835-final
+        app_component: backend
+    spec:
+      containers:
+      - image: mysql:5.6
+        name: mysqldb
+        env:
+          # Use secret in real usage
+        - name: DBUSER
+          valueFrom:
+            secretKeyRef:
+              name: mysql-db-secret
+              key: username
+        - name: DBPW
+          valueFrom:
+            secretKeyRef:
+              name: mysql-db-secret
+              key: password
+        ports:
+        - containerPort: 3306
+          name: mysqldb
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: mysql-persistent-storage
+        persistentVolumeClaim:
+          claimName: mysql-pvc
