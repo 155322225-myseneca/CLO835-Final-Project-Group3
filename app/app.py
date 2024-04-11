@@ -20,7 +20,8 @@ AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 bucket_name = os.getenv('S3_BUCKET_NAME')
 key = os.getenv('IMAGE_KEY')
-local_path = os.getenv('LOCAL_PATH')
+#local_path = "/image/ilovedogs.jpg"
+#local_path = os.getenv('LOCAL_PATH')
 
 # Create a connection to the MySQL database
 db_conn = connections.Connection(
@@ -53,15 +54,14 @@ SUPPORTED_COLORS = ",".join(color_codes.keys())
 COLOR = random.choice(["red", "green", "blue", "blue2", "darkblue", "pink", "lime"])
 
 # Download image from S3 bucket to local
-def download_image_from_s3(bucket_name, key, local_path):
+def download_image_from_s3(bucket_name, key):
     s3 = boto3.client('s3')
-    s3.download_file(bucket_name, key, local_path)
+    s3.download_file(bucket_name, key, '/image/ilovedogs.jpg')
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
-    print("Local Path:", local_path)
-    download_image_from_s3(bucket_name, key, local_path)
-    return render_template('addemp.html', background_image=local_path)
+    download_image_from_s3(bucket_name, key)
+    return render_template('addemp.html', background_image='/image/ilovedogs.jpg')
 
 @app.route("/about", methods=['GET','POST'])
 def about():
