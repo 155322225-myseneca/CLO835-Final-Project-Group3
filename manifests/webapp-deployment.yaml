@@ -30,6 +30,6 @@ spec:
             - name: DBPORT
               value: "3306"
           ports:
-            - containerPort: 8080
+            - containerPort: 81
       imagePullSecrets:
         - name: webapp-secret
