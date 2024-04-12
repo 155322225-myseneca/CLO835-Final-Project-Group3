@@ -21,7 +21,6 @@ AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 bucket_name = os.getenv('S3_BUCKET_NAME')
 key = os.getenv('IMAGE_KEY')
 local_path = "image/ilovedogs.jpg"
-#local_path = os.getenv('LOCAL_PATH')
 
 # Create a connection to the MySQL database
 db_conn = connections.Connection(
@@ -66,7 +65,6 @@ def download_image_from_s3(bucket_name, key, local_path):
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
-    download_image_from_s3(bucket_name, key, local_path)
     return render_template('addemp.html', background_image=local_path)
 
 @app.route("/about", methods=['GET','POST'])
@@ -152,5 +150,7 @@ if __name__ == '__main__':
     if COLOR not in color_codes:
         print("Color not supported. Received '" + COLOR + "' expected one of " + SUPPORTED_COLORS)
         exit(1)
+        
+    download_image_from_s3(bucket_name, key, local_path)
 
     app.run(host='0.0.0.0',port=81,debug=True)
