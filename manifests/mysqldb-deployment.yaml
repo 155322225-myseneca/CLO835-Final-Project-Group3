@@ -3,6 +3,9 @@ kind: Deployment
 metadata:
   name: mysqldb
   namespace: final
+  labels:
+    appname: clo835-final
+    app_component: backend
 spec:
   selector:
     matchLabels:
@@ -30,6 +33,11 @@ spec:
             secretKeyRef:
               name: mysql-db-secret
               key: password
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-db-secret
+              key: rootpassword
         ports:
         - containerPort: 3306
           name: mysqldb
