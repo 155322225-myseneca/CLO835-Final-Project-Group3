@@ -24,7 +24,7 @@ s3_uri = os.getenv('S3_URI')
 parsed_uri = urlparse(s3_uri)
 bucket_name = parsed_uri.netloc
 key = parsed_uri.path.lstrip('/')
-local_path = 'image/employee.jpeg'
+local_path = "image/employee.jpeg"
 
 # Create a connection to the MySQL database
 db_conn = connections.Connection(
@@ -43,7 +43,7 @@ def download_image_from_s3(bucket_name, key, local_path):
     try:
         s3 = boto3.client('s3')
         s3.download_file(bucket_name, key, local_path)
-        print(f"Image downloaded successfully. Key: '{key}', Local path: {local_path}")
+        print(f"Image downloaded successfully. Key: '{key}', Local path: '{local_path}'")
         return True
     except Exception as e:
         print(f"Error downloading file '{key}': {e}")
