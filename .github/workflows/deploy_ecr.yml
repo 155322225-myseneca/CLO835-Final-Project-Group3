@@ -3,7 +3,7 @@ name: Deploy to ECR
 on: 
   push:
     branches: [ dev ]
-    paths: ['app/**']
+    paths: ['app/**', '.github/workflows/**']
 
 jobs:
   
