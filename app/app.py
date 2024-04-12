@@ -4,7 +4,6 @@ import os
 import random
 import argparse
 import boto3
-from urllib.parse import urlparse
 
 
 app = Flask(__name__)
@@ -18,12 +17,8 @@ DBPORT = int(os.environ.get("DBPORT"))
 # Credentails from AWS
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
-s3_uri = os.getenv('S3_URI')
-
-# Parse the S3 URI to extract the bucket name and object key
-parsed_uri = urlparse(s3_uri)
-bucket_name = parsed_uri.netloc
-key = parsed_uri.path.lstrip('/')
+bucket_name = os.getenv('S3_BUCKET_NAME')
+key = os.getenv('IMAGE_KEY')
 local_path = "image/employee.jpeg"
 
 # Create a connection to the MySQL database
@@ -42,7 +37,7 @@ table = 'employee';
 def download_image_from_s3(bucket_name, key, local_path):
     try:
         s3 = boto3.client('s3')
-        s3.download_file(bucket_name, key, "image/employee.jpeg")
+        s3.download_file(bucket_name, key, local_path)
         print(f"Image downloaded successfully. Key: '{key}', Local path: '{local_path}'")
         return True
     except Exception as e:
@@ -51,11 +46,11 @@ def download_image_from_s3(bucket_name, key, local_path):
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
-    return render_template('addemp.html', background_image='../'+local_path)
+    return render_template('addemp.html', background_image=local_path)
 
 @app.route("/about", methods=['GET','POST'])
 def about():
-    return render_template('about.html', background_image='../'+local_path)
+    return render_template('about.html', background_image=local_path)
     
 @app.route("/addemp", methods=['POST'])
 def AddEmp():
@@ -79,11 +74,11 @@ def AddEmp():
         cursor.close()
 
     print("all modification done...")
-    return render_template('addempoutput.html', name=emp_name, background_image='../'+local_path)
+    return render_template('addempoutput.html', name=emp_name, background_image=local_path)
 
 @app.route("/getemp", methods=['GET', 'POST'])
 def GetEmp():
-    return render_template("getemp.html", background_image='../'+local_path)
+    return render_template("getemp.html", background_image=local_path)
 
 
 @app.route("/fetchdata", methods=['GET','POST'])
@@ -112,7 +107,7 @@ def FetchData():
         cursor.close()
 
     return render_template("getempoutput.html", id=output["emp_id"], fname=output["first_name"],
-                           lname=output["last_name"], interest=output["primary_skills"], location=output["location"], background_image='../'+local_path)
+                           lname=output["last_name"], interest=output["primary_skills"], location=output["location"], background_image=local_path)
 
 if __name__ == '__main__':
         
