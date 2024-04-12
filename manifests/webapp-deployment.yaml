@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp
+  namespace: final
+  labels:
+    app: employees
+    component: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: employees
+  template:
+    metadata:
+      labels:
+        app: employees
+        component: frontend
+    spec:
+      containers:
+        - name: app-container
+          image: 632347313670.dkr.ecr.us-east-1.amazonaws.com/ecr_webapp:31f4549
+          env:
+            - name: DBPWD
+              value: pw
+            - name: DBUSER
+              value: root
+            - name: DBHOST
+              value: "mysqldb-clusterip.final.svc.cluster.local"
+            - name: DBPORT
+              value: "3306"
+          ports:
+            - containerPort: 8080
+      imagePullSecrets:
+        - name: webapp-secret
