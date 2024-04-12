@@ -42,7 +42,7 @@ table = 'employee';
 def download_image_from_s3(bucket_name, key, local_path):
     try:
         s3 = boto3.client('s3')
-        s3.download_file(bucket_name, key, local_path)
+        s3.download_file(bucket_name, key, "image/employee.jpeg")
         print(f"Image downloaded successfully. Key: '{key}', Local path: '{local_path}'")
         return True
     except Exception as e:
