@@ -4,21 +4,25 @@ import os
 import random
 import argparse
 import boto3
-
+from urllib.parse import urlparse
 
 app = Flask(__name__)
 
 DBHOST = os.environ.get("DBHOST") or "localhost"
 DBUSER = os.environ.get("DBUSER") or "root"
-DBPWD = os.environ.get("DBPWD") or "passwors"
+DBPWD = os.environ.get("DBPWD") or "password"
 DATABASE = os.environ.get("DATABASE") or "employees"
 DBPORT = int(os.environ.get("DBPORT"))
 
 # Credentails from AWS
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
-bucket_name = os.getenv('S3_BUCKET_NAME')
-key = os.getenv('IMAGE_KEY')
+
+# Parse the S3 URI to extract the bucket name and key
+S3_URI = os.getenv('S3_URI')
+parsed_uri = urlparse(S3_URI)
+bucket_name = parsed_uri.netloc
+key = parsed_uri.path.lstrip('/')
 local_path = f"static/{key}"
 
 # Create a connection to the MySQL database
