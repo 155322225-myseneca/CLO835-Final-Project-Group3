@@ -19,7 +19,7 @@ AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 bucket_name = os.getenv('S3_BUCKET_NAME')
 key = os.getenv('IMAGE_KEY')
-local_path = "image/employee.jpeg"
+local_path = f"static/{key}"
 
 # Create a connection to the MySQL database
 db_conn = connections.Connection(
