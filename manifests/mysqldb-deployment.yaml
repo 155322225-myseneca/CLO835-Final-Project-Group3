@@ -19,10 +19,9 @@ spec:
         app_component: backend
     spec:
       containers:
-      - image: 632347313670.dkr.ecr.us-east-1.amazonaws.com/ecr_mysqldb:31f4549
+      - image: 632347313670.dkr.ecr.us-east-1.amazonaws.com/ecr_mysqldb:35adfdf
         name: mysqldb
         env:
-          # Use secret in real usage
         - name: DBUSER
         - name: DBPW
           valueFrom:
