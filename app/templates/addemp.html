@@ -7,7 +7,7 @@
 	<font color="black" size="4" style="font-family: avenir">
 
 		<h1 style="color: DodgerBlue">Employee Database</h1>
-		<body style="background-image: url('{{ background_image }}');" >
+		<body style="background-image: url('{{ background_image }}')" >
 
 			<form action="/addemp" autocomplete="on" method = "POST" enctype="multipart/form-data">
 
@@ -27,9 +27,9 @@
 		  		<button type="submit" formaction="/getemp" style="background: grey; height: 45px; width: 200px; color:white; font:oblique;">GET EMPLOYEE INFORMATION</button><br><br>
 
 			</form>
-			<br><br><br><br><br><br><br><br>
+			<br><br><br>
             <a href="/about">About Us</a>
-            <h3>Image path: {{ background_image }}</h3>
+            <h4>Image path: {{ background_image }}</h4>
 		</body>
 
 	</font>
