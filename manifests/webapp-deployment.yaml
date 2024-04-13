@@ -17,19 +17,32 @@ spec:
         app: employees
         component: frontend
     spec:
+      serviceAccountName: clo835
       containers:
         - name: app-container
-          image: 632347313670.dkr.ecr.us-east-1.amazonaws.com/ecr_webapp:31f4549
+          image: webapp:latest
           env:
             - name: DBPWD
-              value: pw
+              valueFrom:
+                configMapKeyRef:
+                  name: webapp-config
+                  key: DBPWD
             - name: DBUSER
-              value: root
+              valueFrom:
+                configMapKeyRef:
+                  name: webapp-config
+                  key: DBUSER
             - name: DBHOST
-              value: "mysqldb-clusterip.final.svc.cluster.local"
+              valueFrom:
+                configMapKeyRef:
+                  name: webapp-config
+                  key: DBHOST
             - name: DBPORT
-              value: "3306"
+              valueFrom:
+                configMapKeyRef:
+                  name: webapp-config
+                  key: DBPORT
           ports:
             - containerPort: 81
       imagePullSecrets:
-        - name: webapp-secret
+        - name: imagepull-secret
