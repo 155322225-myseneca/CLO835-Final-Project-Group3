@@ -18,6 +18,7 @@ spec:
         appname: clo835-final
         app_component: backend
     spec:
+      serviceAccountName: clo835
       containers:
       - image: 632347313670.dkr.ecr.us-east-1.amazonaws.com/ecr_mysqldb:35adfdf
         name: mysqldb
