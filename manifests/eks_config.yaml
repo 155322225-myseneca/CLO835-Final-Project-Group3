@@ -18,3 +18,10 @@ managedNodeGroups:
     enableSsm: true
   iam:
     instanceRoleARN: arn:aws:iam::796109909635:role/LabRole
+    
+---
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: final
