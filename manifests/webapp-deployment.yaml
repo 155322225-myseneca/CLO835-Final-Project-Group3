@@ -4,45 +4,62 @@ metadata:
   name: webapp
   namespace: final
   labels:
-    app: employees
+    app: clo835-final
     component: frontend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: employees
+      app: clo835-final
   template:
     metadata:
       labels:
-        app: employees
+        app: clo835-final
         component: frontend
     spec:
-      serviceAccountName: clo835
+      #serviceAccountName: clo835
       containers:
-        - name: app-container
-          image: webapp:latest
-          env:
-            - name: DBPWD
-              valueFrom:
-                configMapKeyRef:
-                  name: webapp-config
-                  key: DBPWD
-            - name: DBUSER
-              valueFrom:
-                configMapKeyRef:
-                  name: webapp-config
-                  key: DBUSER
-            - name: DBHOST
-              valueFrom:
-                configMapKeyRef:
-                  name: webapp-config
-                  key: DBHOST
-            - name: DBPORT
-              valueFrom:
-                configMapKeyRef:
-                  name: webapp-config
-                  key: DBPORT
-          ports:
-            - containerPort: 81
+      - name: app-container
+        image: 632347313670.dkr.ecr.us-east-1.amazonaws.com/ecr_webapp:35adfdf
+        ports:
+        - containerPort: 81
+        
+        env:
+          - name: DBHOST
+            valueFrom:
+              configMapKeyRef:
+                name: webapp-config
+                key: DBHOST
+          - name: DBPORT
+            valueFrom:
+              configMapKeyRef:
+                name: webapp-config
+                key: DBPORT
+          - name: DBUSER
+            valueFrom:
+              secretKeyRef:
+                name: mysql-db-secret
+                key: username
+          - name: DBPWD
+            valueFrom:
+              secretKeyRef:
+                name: mysql-db-secret
+                key: password
+          - name: S3_URI
+            valueFrom:
+              configMapKeyRef:
+                name: s3-image-configmap
+                key: S3_URI
+        volumeMounts:
+          - name: webapp-volume
+            mountPath: /var/app/static/
+          - name: s3-config
+            mountPath: /var/app/static/
+      volumes:
+        - name: webapp-volume
+          persistentVolumeClaim:
+            claimName: webapp-pvc
+          configMap:
+            name: s3-image-configmap
       imagePullSecrets:
-        - name: imagepull-secret
+      - name: imagepull-secret
