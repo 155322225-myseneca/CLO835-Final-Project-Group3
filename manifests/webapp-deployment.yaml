@@ -24,6 +24,11 @@ spec:
         ports:
         - containerPort: 81
         env:
+          - name: GROUP_NAME
+            valueFrom:
+              configMapKeyRef:
+                name: webapp-config
+                key: GROUP_NAME
           - name: DBHOST
             valueFrom:
               configMapKeyRef:
