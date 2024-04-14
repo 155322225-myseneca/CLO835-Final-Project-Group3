@@ -7,3 +7,4 @@ data:
   
   DBHOST: "mysqldb-clusterip.final.svc.cluster.local"
   DBPORT: "3306"
+  GROUP_NAME: "Group3"
