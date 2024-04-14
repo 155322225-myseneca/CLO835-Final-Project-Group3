@@ -17,21 +17,13 @@ DBPORT = int(os.environ.get("DBPORT"))
 # Credentails from AWS
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
-
-# Parse the S3 URI to extract the bucket name and key
-#S3_URI = os.getenv('S3_URI')
-#parsed_uri = urlparse(S3_URI)
-#bucket_name = parsed_uri.netloc
-#key = parsed_uri.path.lstrip('/')
-#local_path = f"static/{key}"
-
-# Read the S3 URI from the file and extract the filename
-with open("static/S3_URI", "r") as file:
+    
+with open("/app/static/S3_URI", "r") as file:
     s3_uri = file.read().strip()
-    bucket_name = s3_uri.split("/")[0]
-    key = s3_uri.split("/")[-1]
+    bucket_name = str(s3_uri.split("/")[2])
+    key = str(s3_uri.split("/")[3])
     local_path = f"static/{key}"
-
+    
 group_name=os.environ.get("GROUP_NAME") 
 
 # Create a connection to the MySQL database
