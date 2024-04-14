@@ -4,12 +4,12 @@ metadata:
   name: webapp-service
   namespace: final
   labels:
-    app: employees
+    app: clo835-final
 spec:
   type: LoadBalancer
   selector:
-    app: employees
+    app: clo835-final
   ports:
     - protocol: TCP
-      port: 80
-      target: 81
+      port: 8081
+      targetPort: 81
