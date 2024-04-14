@@ -25,6 +25,8 @@ bucket_name = parsed_uri.netloc
 key = parsed_uri.path.lstrip('/')
 local_path = f"static/{key}"
 
+group_name=os.environ.get("GROUP_NAME") 
+
 # Create a connection to the MySQL database
 db_conn = connections.Connection(
     host= DBHOST,
@@ -50,11 +52,11 @@ def download_image_from_s3(bucket_name, key, local_path):
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
-    return render_template('addemp.html', background_image=local_path)
+    return render_template('addemp.html', background_image=local_path, group_name=group_name)
 
 @app.route("/about", methods=['GET','POST'])
 def about():
-    return render_template('about.html', background_image=local_path)
+    return render_template('about.html', background_image=local_path, group_name=group_name)
     
 @app.route("/addemp", methods=['POST'])
 def AddEmp():
