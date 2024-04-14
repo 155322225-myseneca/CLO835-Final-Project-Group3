@@ -2,16 +2,38 @@
 <html>
 <head>
 	<title>Add Employee Information</title>
+	<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        color: #333;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        width: 80%;
+        margin: 0 auto;
+        padding: 10px;
+        background-color: rgba(216, 249, 255, 0.4);
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin-top: 50px;
+    }
+
+    h1, h3, a {
+        color: #026592;
+    }
+	</style>
 </head>
 <center>
+	<div class="container">
 	<font color="black" size="4" style="font-family: avenir">
 
 		<h1 style="color: DodgerBlue">Employee Database</h1>
 		<body style="background-image: url('{{ background_image }}')" >
 
 			<form action="/addemp" autocomplete="on" method = "POST" enctype="multipart/form-data">
-
-			
 
 		  		Employee ID:<br> <input style="height:25px;font-size:14pt; color:grey;" type="number" name="emp_id" autofocus size="40"><br><br>
 
@@ -25,13 +47,12 @@
 
 		  		<button type="submit" style="background: grey; height: 45px; width: 200px; color: white; size: 5; font:oblique;">UPDATE DATABASE</button><br><br>
 		  		<button type="submit" formaction="/getemp" style="background: grey; height: 45px; width: 200px; color:white; font:oblique;">GET EMPLOYEE INFORMATION</button><br><br>
-
 			</form>
 			<br><br><br>
             <a href="/about">About Us</a>
             <h4>Image path: {{ background_image }}</h4>
 		</body>
-
 	</font>
+	</div>
 </center>
 </html>
