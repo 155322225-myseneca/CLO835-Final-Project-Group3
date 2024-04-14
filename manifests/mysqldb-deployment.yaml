@@ -24,6 +24,10 @@ spec:
         name: mysqldb
         env:
         - name: DBUSER
+          valueFrom:
+            secretKeyRef:
+              name: mysql-db-secret
+              key: username
         - name: DBPW
           valueFrom:
             secretKeyRef:
@@ -34,9 +38,19 @@ spec:
             secretKeyRef:
               name: mysql-db-secret
               key: rootpassword
-        ports:
-        - containerPort: 3306
-          name: mysqldb
+        - name: MYSQL_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: mysqldb-config
+              key: mysql_port
+        - name: MYSQL_INIT_DB_SQL
+          valueFrom:
+            configMapKeyRef:
+              name: mysqldb-config
+              key: mysql_init_db_sql
+ #       ports:
+ #       - containerPort: 3306
+ #         name: mysqldb
         volumeMounts:
         - name: mysql-persistent-storage
           mountPath: /var/lib/mysql
