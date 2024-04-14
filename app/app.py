@@ -17,6 +17,7 @@ DBPORT = int(os.environ.get("DBPORT"))
 # Credentails from AWS
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+AWS_SESSION_TOKEN = os.getenv('AWS_SESSION_TOKEN')
 
 # Parse the S3 URI to extract the bucket name and key    
 S3_URI = os.getenv('S3_URI')
