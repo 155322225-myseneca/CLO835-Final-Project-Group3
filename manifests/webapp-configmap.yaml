@@ -4,7 +4,6 @@ metadata:
   name: webapp-config
   namespace: final
 data:
-  DBPWD: "pw"
-  DBUSER: "root"
+  
   DBHOST: "mysqldb-clusterip.final.svc.cluster.local"
   DBPORT: "3306"
