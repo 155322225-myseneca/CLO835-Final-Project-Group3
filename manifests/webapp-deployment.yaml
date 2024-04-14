@@ -54,7 +54,7 @@ spec:
           - name: webapp-volume
             mountPath: /var/app/static/
           - name: s3-config
-            mountPath: /var/app/config/
+            mountPath: /app/static/
             
       volumes:
         - name: webapp-volume
