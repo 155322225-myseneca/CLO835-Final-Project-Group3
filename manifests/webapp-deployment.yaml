@@ -20,10 +20,9 @@ spec:
       serviceAccountName: clo835
       containers:
       - name: app-container
-        image: 632347313670.dkr.ecr.us-east-1.amazonaws.com/ecr_webapp:35adfdf
+        image: 632347313670.dkr.ecr.us-east-1.amazonaws.com/ecr_webapp:4825bfb
         ports:
         - containerPort: 81
-        
         env:
           - name: DBHOST
             valueFrom:
@@ -45,24 +44,10 @@ spec:
               secretKeyRef:
                 name: mysql-db-secret
                 key: password
-          - name: S3_URI
-            valueFrom:
-              configMapKeyRef:
-                name: s3-image-configmap
-                key: S3_URI
-        volumeMounts:
-          - name: webapp-volume
-            mountPath: /var/app/static/
-          - name: s3-config
-            mountPath: /app/static/
-            
-      volumes:
-        - name: webapp-volume
-          persistentVolumeClaim:
-            claimName: webapp-pvc
-        - name: s3-config
-          configMap:
-            name: s3-image-configmap
-            
+        envFrom:
+          - configMapRef:
+              name: s3-image-configmap
+          - secretRef:
+                name: s3-secret
       imagePullSecrets:
       - name: imagepull-secret
