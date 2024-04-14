@@ -1,0 +1,16 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: webapp-pvc
+  namespace: final
+  annotations:
+    volume.beta.kubernetes.io/storage-class: gp2
+  labels:
+    app: clo835-final
+spec:
+  storageClassName: gp2
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
