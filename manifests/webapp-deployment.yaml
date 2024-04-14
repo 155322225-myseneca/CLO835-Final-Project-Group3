@@ -17,7 +17,7 @@ spec:
         app: clo835-final
         component: frontend
     spec:
-      #serviceAccountName: clo835
+      serviceAccountName: clo835
       containers:
       - name: app-container
         image: 632347313670.dkr.ecr.us-east-1.amazonaws.com/ecr_webapp:35adfdf
@@ -54,12 +54,15 @@ spec:
           - name: webapp-volume
             mountPath: /var/app/static/
           - name: s3-config
-            mountPath: /var/app/static/
+            mountPath: /var/app/config/
+            
       volumes:
         - name: webapp-volume
           persistentVolumeClaim:
             claimName: webapp-pvc
+        - name: s3-config
           configMap:
             name: s3-image-configmap
+            
       imagePullSecrets:
       - name: imagepull-secret
