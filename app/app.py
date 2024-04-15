@@ -45,7 +45,7 @@ def download_image_from_s3(bucket_name, key, local_path):
     try:
         s3 = boto3.client('s3')
         s3.download_file(bucket_name, key, local_path)
-        print(f"Image downloaded successfully. Key: '{key}', Local path: '{local_path}'")
+        print(f"Image downloaded successfully! Key: '{key}', Local path: '{local_path}'")
         return True
     except Exception as e:
         print(f"Error downloading file '{key}': {e}")
