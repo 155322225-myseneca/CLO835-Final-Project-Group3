@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysqldb
+  namespace: final
+  labels:
+    appname: clo835-final
+    app_component: backend
+spec:
+  selector:
+    matchLabels:
+      appname: clo835-final
+      app_component: backend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        appname: clo835-final
+        app_component: backend
+    spec:
+      serviceAccountName: clo835
+      containers:
+      - image: 632347313670.dkr.ecr.us-east-1.amazonaws.com/ecr_mysqldb:35adfdf
+        name: mysqldb
+        env:
+        - name: DBUSER
+          valueFrom:
+            secretKeyRef:
+              name: mysql-db-secret
+              key: username
+        - name: DBPW
+          valueFrom:
+            secretKeyRef:
+              name: mysql-db-secret
+              key: password
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-db-secret
+              key: rootpassword
+        - name: MYSQL_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: mysqldb-config
+              key: mysql_port
+        - name: MYSQL_INIT_DB_SQL
+          valueFrom:
+            configMapKeyRef:
+              name: mysqldb-config
+              key: mysql_init_db_sql
+ #       ports:
+ #       - containerPort: 3306
+ #         name: mysqldb
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: mysql-persistent-storage
+        persistentVolumeClaim:
+          claimName: mysql-pvc
+      imagePullSecrets:
+      - name: imagepull-secret

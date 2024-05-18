@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp
+  namespace: final
+  labels:
+    app: clo835-final
+    component: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: clo835-final
+  template:
+    metadata:
+      labels:
+        app: clo835-final
+        component: frontend
+    spec:
+      serviceAccountName: clo835
+      containers:
+      - name: app-container
+        image: 632347313670.dkr.ecr.us-east-1.amazonaws.com/ecr_webapp:4825bfb
+        ports:
+        - containerPort: 81
+        env:
+          - name: GROUP_NAME
+            valueFrom:
+              configMapKeyRef:
+                name: webapp-config
+                key: GROUP_NAME
+          - name: DBHOST
+            valueFrom:
+              configMapKeyRef:
+                name: webapp-config
+                key: DBHOST
+          - name: DBPORT
+            valueFrom:
+              configMapKeyRef:
+                name: webapp-config
+                key: DBPORT
+          - name: DBUSER
+            valueFrom:
+              secretKeyRef:
+                name: mysql-db-secret
+                key: username
+          - name: DBPWD
+            valueFrom:
+              secretKeyRef:
+                name: mysql-db-secret
+                key: password
+        envFrom:
+          - configMapRef:
+              name: s3-image-configmap
+          - secretRef:
+                name: s3-secret
+      imagePullSecrets:
+      - name: imagepull-secret
